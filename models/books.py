@@ -1,3 +1,5 @@
+# This file contains the Book model and the request and response bodies for creating and reading books.
+
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
 
@@ -28,5 +30,10 @@ class BookRead(SQLModel):
     isSold: bool
     user_id: int
 
-from models.users import User
+# response body for updating book data
+class BookUpdate(SQLModel):
+    price: Optional[int] = None
+    isSold: Optional[bool] = None
+
+from models.users import User # this is to avoid circular import error
 Book.model_rebuild()
