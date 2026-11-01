@@ -5,7 +5,7 @@ from typing import Optional
 class User(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(index=True)
-    emai: str = Field(unique=True)
+    email: str = Field(unique=True)
     college: str
 
     # one user can have many books

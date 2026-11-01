@@ -7,7 +7,7 @@ from models.users import User, UserCreate, UserRead
 from models.books import Book, BookCreate, BookRead, BookUpdate
 from auth import verify_api_key
 
-router = APIRouter(prefix="books", tags=["books"])
+router = APIRouter(prefix="/books", tags=["books"])
 
 @router.get("/", response_model=list[BookRead])
 def list_books(
@@ -59,6 +59,8 @@ def update_book(
     session.refresh(book)
     return book
 
+
+
 @router.patch("/{book_id}/mark_sold/", response_model=BookRead)
 def mark_book_as_sold(
     book_id: int,
@@ -66,10 +68,17 @@ def mark_book_as_sold(
     api_key: str = Depends(verify_api_key)
 ):
     book = session.get(Book, book_id)
+
     if not book:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(
+            status_code=404,
+            detail="Book not found"
+        )
 
     book.isSold = True
+
     session.add(book)
     session.commit()
     session.refresh(book)
+
+    return book

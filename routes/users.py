@@ -33,6 +33,6 @@ def register_user(
 @router.get("/", response_model=list[UserRead])
 def list_users(session: Session = Depends(get_session)):
     users = session.exec(
-        select((User)).all()
-    )
+        select(User)
+    ).all()
     return users
